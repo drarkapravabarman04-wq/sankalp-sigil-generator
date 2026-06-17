@@ -1,0 +1,1735 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Sankalp Arcane Matrix - Aunt Yeashi's Lab</title>  
+    <!-- Tailwind CSS for modern fluid grid layouts -->  
+    <script src="https://cdn.tailwindcss.com"></script>  
+    <script>  
+        tailwind.config = {  
+            theme: {  
+                extend: {  
+                    colors: {  
+                        darkBg: '#05060f',  
+                        panelBg: '#0b0d1e',  
+                        borderColor: '#191f3b',  
+                        glowCyan: '#00f0ff',  
+                        runeRed: '#ff2a5f',  
+                        goldJade: '#10b981',  
+                        parchment: '#f5efe6',  
+                    },  
+                    fontFamily: {  
+                        mono: ['Courier New', 'Courier', 'monospace'],  
+                    }  
+                }  
+            }  
+        }  
+    </script>  
+    <style>  
+        /* Custom Glowing & Atmospheric Effects */  
+        .glow-cyan-filter {  
+            filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.75));  
+        }  
+        .glow-gold-filter {  
+            filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.85));  
+        }  
+        .glow-red-filter {  
+            filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.85));  
+        }  
+        .glow-green-filter {  
+            filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.75));  
+        }  
+        .glow-blue-filter {  
+            filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.85));  
+        }  
+  
+        /* Ambient scrollbar styling */  
+        ::-webkit-scrollbar {  
+            width: 6px;  
+            height: 6px;  
+        }  
+        ::-webkit-scrollbar-track {  
+            background: #05060f;  
+        }  
+        ::-webkit-scrollbar-thumb {  
+            background: #191f3b;  
+            border-radius: 3px;  
+        }  
+        ::-webkit-scrollbar-thumb:hover {  
+            background: #00f0ff;  
+        }  
+  
+        /* Shimmer animations for active matrices */  
+        @keyframes subtlePulse {  
+            0%, 100% { opacity: 0.8; transform: scale(1); }  
+            50% { opacity: 1; transform: scale(1.02); }  
+        }  
+        .pulsing-vessel {  
+            animation: subtlePulse 4s infinite ease-in-out;  
+        }  
+  
+        /* Extreme unstable pulsing for overloads */  
+        @keyframes overloadBreach {  
+            0%, 100% { border-color: #ef4444; filter: drop-shadow(0 0 4px rgba(239,68,68,0.5)); transform: scale(1); }  
+            50% { border-color: #f97316; filter: drop-shadow(0 0 20px rgba(249,115,22,0.8)); transform: scale(1.03); }  
+        }  
+        .containment-breach {  
+            animation: overloadBreach 1s infinite ease-in-out !important;  
+        }  
+  
+        /* Floating rune animation */  
+        @keyframes floatRune {  
+            0% { transform: translateY(0px) rotate(0deg); opacity: 0.2; }  
+            50% { transform: translateY(-5px) rotate(3deg); opacity: 0.5; }  
+            100% { transform: translateY(0px) rotate(0deg); opacity: 0.2; }  
+        }  
+        .floating-rune {  
+            animation: floatRune 6s infinite ease-in-out;  
+        }  
+  
+        /* Phantom node floating pulse animation */  
+        @keyframes phantomGlow {  
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px #f59e0b); opacity: 0.7; }  
+            50% { transform: scale(1.2); filter: drop-shadow(0 0 12px #f59e0b); opacity: 1; }  
+        }  
+        .phantom-node {  
+            animation: phantomGlow 2s infinite ease-in-out;  
+            transform-origin: center;  
+        }  
+    </style>  
+</head>  
+<body class="bg-[#03040a] text-slate-100 font-mono min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-cyan-500 selection:text-black">  
+  
+    <!-- Top Occult Header -->  
+    <header class="border-b border-[#141830] bg-[#070918]/80 backdrop-blur-md sticky top-0 z-50 px-4 py-4 w-full">  
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">  
+            <div>  
+                <div class="flex items-center gap-3">  
+                    <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>  
+                    <h1 class="text-xl md:text-2xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-200 to-amber-400">  
+                        SANKALP ARCANE MATRIX  
+                    </h1>  
+                </div>  
+                <p class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Aunt Yeashi's Lab: Syllabic Numerical Reduction & Vessel Binding System</p>  
+            </div>  
+              
+            <!-- Synthesizer Controls & Utility Indicators -->  
+            <div class="flex items-center gap-4">  
+                <button id="audioToggleBtn" onclick="toggleAudio()" class="px-3 py-1.5 rounded border border-slate-800 bg-slate-900/60 hover:border-cyan-400 hover:text-cyan-400 transition-all text-xs flex items-center gap-2">  
+                    <svg id="audioIcon" class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">  
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>  
+                    </svg>  
+                    <span id="audioStatusText">AUDIO: MUTED</span>  
+                </button>  
+                <div class="hidden sm:flex flex-col text-right text-[10px] text-slate-500">  
+                    <div>MATRIX GRID: LO SHU 3X3</div>  
+                    <div id="runtimeClock">SYS_SEC: 000.00</div>  
+                </div>  
+            </div>  
+        </div>  
+    </header>  
+  
+    <main class="max-w-6xl mx-auto p-4 md:p-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">  
+          
+        <!-- Left Side: Inscription Settings Panel (lg:col-span-5) -->  
+        <section class="lg:col-span-5 flex flex-col gap-5">  
+              
+            <div class="bg-[#070918] border border-[#141830] rounded-lg p-5 flex flex-col gap-4 shadow-xl">  
+                <div class="flex justify-between items-center border-b border-dashed border-slate-800 pb-2.5">  
+                    <h2 class="text-sm font-bold tracking-wider text-cyan-400 uppercase">1. Inscribe Core Promise</h2>  
+                    <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded uppercase">Vow Formulation</span>  
+                </div>  
+  
+                <!-- Input Vow and warnings -->  
+                <div class="flex flex-col gap-1.5">  
+                    <div class="flex justify-between items-center">  
+                        <label for="vowInput" class="text-xs text-slate-400 tracking-wider">Sankalp Intention (Present Tense)</label>  
+                        <span id="charCount" class="text-[10px] text-slate-500">0 chars</span>  
+                    </div>  
+                    <textarea id="vowInput" oninput="analyzeSankalp()" rows="3" class="w-full bg-[#030409] border border-[#191f3b] focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30 rounded p-3 text-sm text-slate-200 outline-none resize-y font-mono transition-all placeholder-slate-700" placeholder="State your affirmative resolve clearly in present tense..."></textarea>  
+                      
+                    <!-- Advanced Linguistic Diagnostics (Direct feedback on magical engineering changes) -->  
+                    <div id="temporalWarningBox" class="hidden text-xs p-3 rounded-md border flex flex-col gap-1">  
+                        <div class="flex justify-between items-center font-bold">  
+                            <span id="temporalTitle">TEMPORAL SHIFT</span>  
+                            <span id="temporalTag" class="text-[9px] px-1.5 py-0.5 rounded uppercase font-semibold">Anomaly</span>  
+                        </div>  
+                        <p id="temporalText" class="text-slate-400 leading-relaxed"></p>  
+                    </div>  
+                </div>  
+  
+                <!-- Commitment Level Modifier (Sankalp Power Engine) -->  
+                <div class="flex flex-col gap-1.5">  
+                    <label for="commitmentTier" class="text-xs text-slate-400 tracking-wider">2. Select Commitment Tier (Sankalp Resistance)</label>  
+                    <select id="commitmentTier" onchange="analyzeSankalp()" class="w-full bg-[#030409] border border-[#191f3b] focus:border-cyan-400 rounded p-2.5 text-xs text-slate-200 outline-none cursor-pointer">  
+                        <option value="habit">🌱 Minor Habit (Base Power: 10)</option>  
+                        <option value="discipline">🛡️ Personal Discipline (Base Power: 30)</option>  
+                        <option value="identity">👁️ Identity Oath (Base Power: 60)</option>  
+                        <option value="blood">🩸 Blood Oath (Base Power: 100)</option>  
+                        <option value="royal">👑 Royal Oath (Base Power: 150)</option>  
+                    </select>  
+                </div>  
+  
+                <!-- Vessel Selector Cards -->  
+                <div class="flex flex-col gap-1.5">  
+                    <label class="text-xs text-slate-400 tracking-wider">3. Select Vessel Material Class (Containment Capacity)</label>  
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">  
+                          
+                        <!-- Paper Card -->  
+                        <div id="vOption-paper" onclick="selectVessel('paper')" class="border border-amber-800/40 bg-amber-950/5 hover:bg-amber-950/10 rounded p-2 cursor-pointer transition-all flex flex-col items-center text-center">  
+                            <span class="text-lg">📜</span>  
+                            <span class="text-[10px] font-bold text-amber-500 mt-1">Paper</span>  
+                            <span class="text-[8px] text-amber-600/80 mt-0.5">Cap: 20</span>  
+                        </div>  
+  
+                        <!-- Jade Card -->  
+                        <div id="vOption-jade" onclick="selectVessel('jade')" class="border border-emerald-800/30 bg-emerald-950/5 hover:bg-emerald-950/10 rounded p-2 cursor-pointer transition-all flex flex-col items-center text-center">  
+                            <span class="text-lg">📿</span>  
+                            <span class="text-[10px] font-bold text-emerald-400 mt-1">Jade</span>  
+                            <span class="text-[8px] text-emerald-500/60 mt-0.5">Cap: 60</span>  
+                        </div>  
+  
+                        <!-- Iron Card -->  
+                        <div id="vOption-iron" onclick="selectVessel('iron')" class="border border-slate-700/50 bg-slate-800/5 hover:bg-slate-800/10 rounded p-2 cursor-pointer transition-all flex flex-col items-center text-center">  
+                            <span class="text-lg">⚔️</span>  
+                            <span class="text-[10px] font-bold text-slate-300 mt-1">Iron</span>  
+                            <span class="text-[8px] text-slate-400/60 mt-0.5">Cap: 120</span>  
+                        </div>  
+  
+                        <!-- Bone Card -->  
+                        <div id="vOption-bone" onclick="selectVessel('bone')" class="border border-red-800/40 bg-red-950/5 hover:bg-red-950/10 rounded p-2 cursor-pointer transition-all flex flex-col items-center text-center">  
+                            <span class="text-lg">🦴</span>  
+                            <span class="text-[10px] font-bold text-red-400 mt-1">Bone</span>  
+                            <span class="text-[8px] text-red-500/60 mt-0.5">Cap: 250</span>  
+                        </div>  
+  
+                        <!-- Gold Card -->  
+                        <div id="vOption-gold" onclick="selectVessel('gold')" class="border border-yellow-700/40 bg-yellow-950/5 hover:bg-yellow-950/10 rounded p-2 cursor-pointer transition-all flex flex-col items-center text-center">  
+                            <span class="text-lg">👑</span>  
+                            <span class="text-[10px] font-bold text-yellow-400 mt-1">Gold</span>  
+                            <span class="text-[8px] text-yellow-500/60 mt-0.5">Cap: 500</span>  
+                        </div>  
+  
+                    </div>  
+                </div>  
+  
+                <button class="relative overflow-hidden group btn-forge bg-gradient-to-r from-cyan-600 via-indigo-600 to-emerald-600 hover:from-cyan-500 hover:to-emerald-500 text-white py-3.5 px-4 rounded font-bold uppercase text-xs tracking-wider transition-all shadow-md active:scale-[0.98] mt-2" onclick="forgeSigil()">  
+                    <span class="relative z-10">Weave Living Script & Resonance</span>  
+                    <span class="absolute inset-0 w-full h-full bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>  
+                </button>  
+            </div>  
+  
+            <!-- Interactive Magic Square Reference Panel -->  
+            <div class="bg-[#070918] border border-[#141830] rounded-lg p-4 flex flex-col gap-3 shadow-lg">  
+                <div class="flex justify-between items-center border-b border-slate-800 pb-1.5">  
+                    <h3 class="text-xs font-bold tracking-wider text-slate-400 uppercase">Lo Shu Reference Matrix</h3>  
+                    <span class="text-[9px] text-cyan-400 font-bold">CONSONANT DIALS</span>  
+                </div>  
+                  
+                <div class="grid grid-cols-3 gap-2 text-center text-xs">  
+                    <!-- Row 1: 8, 1, 6 -->  
+                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800/60" title="K, V mapping">  
+                        <span class="block text-slate-500 text-[9px] uppercase">Node 1</span>  
+                        <span class="text-cyan-400 font-bold text-lg">8</span>  
+                        <span class="block text-[8px] text-slate-400">K, V</span>  
+                    </div>  
+                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800/60" title="B, M, X mapping">  
+                        <span class="block text-slate-500 text-[9px] uppercase">Node 2</span>  
+                        <span class="text-cyan-400 font-bold text-lg">1</span>  
+                        <span class="block text-[8px] text-slate-400">B, M, X</span>  
+                    </div>  
+                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800/60" title="H, S mapping">  
+                        <span class="block text-slate-500 text-[9px] uppercase">Node 3</span>  
+                        <span class="text-cyan-400 font-bold text-lg">6</span>  
+                        <span class="block text-[8px] text-slate-400">H, S</span>  
+                    </div>  
+                      
+                    <!-- Row 2: 3, 5, 7 -->  
+                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800/60" title="D, P, Z mapping">  
+                        <span class="block text-slate-500 text-[9px] uppercase">Node 4</span>  
+                        <span class="text-cyan-400 font-bold text-lg">3</span>  
+                        <span class="block text-[8px] text-slate-400">D, P, Z</span>  
+                    </div>  
+                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800/60" title="G, R mapping">  
+                        <span class="block text-slate-500 text-[9px] uppercase">Node 5</span>  
+                        <span class="text-cyan-400 font-bold text-lg">5</span>  
+                        <span class="block text-[8px] text-slate-400">G, R</span>  
+                    </div>  
+                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800/60" title="J, T mapping">  
+                        <span class="block text-slate-500 text-[9px] uppercase">Node 6</span>  
+                        <span class="text-cyan-400 font-bold text-lg">7</span>  
+                        <span class="block text-[8px] text-slate-400">J, T</span>  
+                    </div>  
+                      
+                    <!-- Row 3: 4, 9, 2 -->  
+                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800/60" title="F, Q mapping">  
+                        <span class="block text-slate-500 text-[9px] uppercase">Node 7</span>  
+                        <span class="text-cyan-400 font-bold text-lg">4</span>  
+                        <span class="block text-[8px] text-slate-400">F, Q</span>  
+                    </div>  
+                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800/60" title="L, W mapping">  
+                        <span class="block text-slate-500 text-[9px] uppercase">Node 8</span>  
+                        <span class="text-cyan-400 font-bold text-lg">9</span>  
+                        <span class="block text-[8px] text-slate-400">L, W</span>  
+                    </div>  
+                    <div class="bg-slate-900/60 p-2 rounded border border-slate-800/60" title="C, N, Y mapping">  
+                        <span class="block text-slate-500 text-[9px] uppercase">Node 9</span>  
+                        <span class="text-cyan-400 font-bold text-lg">2</span>  
+                        <span class="block text-[8px] text-slate-400">C, N, Y</span>  
+                    </div>  
+                </div>  
+            </div>  
+  
+        </section>  
+  
+        <!-- Right Side: Signal Resolution & Canvas Display (lg:col-span-7) -->  
+        <section class="lg:col-span-7 flex flex-col gap-5">  
+              
+            <div class="bg-[#070918] border border-[#141830] rounded-lg p-5 flex flex-col items-center gap-4 shadow-xl relative overflow-hidden">  
+                  
+                <div class="flex justify-between items-center w-full border-b border-dashed border-slate-800 pb-2.5">  
+                    <h2 class="text-sm font-bold tracking-wider text-cyan-400 uppercase">Vessel & Sigil Resolution Map</h2>  
+                    <span class="text-[10px] text-emerald-400 flex items-center gap-1">  
+                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>  
+                        LIVE RENDERER  
+                    </span>  
+                </div>  
+  
+                <!-- Vessel Canvas Container -->  
+                <div class="relative w-full max-w-[360px] aspect-square flex items-center justify-center p-4">  
+                      
+                    <!-- Vessel Frame with dynamically loaded style classes -->  
+                    <div id="vesselCanvas" class="w-full h-full rounded-2xl relative flex items-center justify-center overflow-hidden transition-all duration-700 ease-out shadow-2xl pulsing-vessel border-4 border-[#252c4e]">  
+                          
+                        <!-- Reactive Backdrop overlay (e.g. glowing grid points) -->  
+                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.1)_0%,rgba(0,0,0,0.8)_100%)] z-10 pointer-events-none"></div>  
+                          
+                        <!-- Runic Text Overlays -->  
+                        <div id="laoneOverlay" class="absolute inset-0 w-full h-full p-6 flex flex-wrap content-center justify-center gap-2 font-bold opacity-20 mix-blend-difference select-none pointer-events-none z-10 transition-opacity duration-500"></div>  
+  
+                        <!-- Real-time SVG Sigil Layout -->  
+                        <svg id="sigilSvg" class="absolute inset-0 w-full h-full z-20 pointer-events-none overflow-visible" viewBox="0 0 100 100">  
+                            <!-- Background guiding matrix grids -->  
+                            <g opacity="0.1" stroke="#ffffff" stroke-width="0.5">  
+                                <line x1="25" y1="25" x2="75" y2="25" />  
+                                <line x1="25" y1="50" x2="75" y2="50" />  
+                                <line x1="25" y1="75" x2="75" y2="75" />  
+                                <line x1="25" y1="25" x2="25" y2="75" />  
+                                <line x1="50" y1="25" x2="50" y2="75" />  
+                                <line x1="75" y1="25" x2="75" y2="75" />  
+                            </g>  
+                              
+                            <!-- Static Guide Pins representing Magic Squares (Aligned to New Lo Shu Configuration) -->  
+                            <g id="guidePins" fill="#ffffff" opacity="0.25">  
+                                <circle id="pin-8" cx="25" cy="25" r="1.5" /> <text id="lbl-8" x="25" y="21" font-size="3" text-anchor="middle" fill="#aaa">8</text>  
+                                <circle id="pin-1" cx="50" cy="25" r="1.5" /> <text id="lbl-1" x="50" y="21" font-size="3" text-anchor="middle" fill="#aaa">1</text>  
+                                <circle id="pin-6" cx="75" cy="25" r="1.5" /> <text id="lbl-6" x="75" y="21" font-size="3" text-anchor="middle" fill="#aaa">6</text>  
+                                <circle id="pin-3" cx="25" cy="50" r="1.5" /> <text id="lbl-3" x="25" y="46" font-size="3" text-anchor="middle" fill="#aaa">3</text>  
+                                <circle id="pin-5" cx="50" cy="50" r="1.5" /> <text id="lbl-5" x="50" y="46" font-size="3" text-anchor="middle" fill="#aaa">5</text>  
+                                <circle id="pin-7" cx="75" cy="50" r="1.5" /> <text id="lbl-7" x="75" y="46" font-size="3" text-anchor="middle" fill="#aaa">7</text>  
+                                <circle id="pin-4" cx="25" cy="75" r="1.5" /> <text id="lbl-4" x="25" y="71" font-size="3" text-anchor="middle" fill="#aaa">4</text>  
+                                <circle id="pin-9" cx="50" cy="75" r="1.5" /> <text id="lbl-9" x="50" y="71" font-size="3" text-anchor="middle" fill="#aaa">9</text>  
+                                <circle id="pin-2" cx="75" cy="75" r="1.5" /> <text id="lbl-2" x="75" y="71" font-size="3" text-anchor="middle" fill="#aaa">2</text>  
+                            </g>  
+  
+                            <!-- The drawn sigil pathway - stroke width set to high-contrast 3.8 -->  
+                            <path id="sigilPath" d="" fill="none" stroke="#00f0ff" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" />  
+                              
+                            <!-- Future temporal drift phantom line and node -->  
+                            <path id="futurePhantomPath" d="" fill="none" stroke="#f59e0b" stroke-dasharray="2,2" stroke-width="1.8" opacity="0" />  
+                            <g id="futurePhantomGroup" opacity="0">  
+                                <circle id="futurePhantomNode" class="phantom-node" cx="0" cy="0" r="4.5" fill="#f59e0b" />  
+                                <text id="futurePhantomLabel" cx="0" cy="0" font-size="4.5" fill="#ffffff" font-weight="bold" text-anchor="middle" y="1.5">?</text>  
+                            </g>  
+                              
+                            <!-- Start Anchor Pin -->  
+                            <circle id="startAnchor" cx="0" cy="0" r="0" fill="none" stroke="#00f0ff" stroke-width="1.5"/>  
+                            <!-- End/Final Anchor Point -->  
+                            <circle id="endAnchor" cx="0" cy="0" r="0" fill="#00f0ff"/>  
+                        </svg>  
+  
+                    </div>  
+                </div>  
+  
+                <!-- Live Metrics Display -->  
+                <div class="w-full bg-[#030409]/90 border border-[#141830] rounded-lg p-4 flex flex-col gap-2.5 text-xs">  
+                    <div class="flex justify-between items-center">  
+                        <span class="text-slate-500">Core Compressed String:</span>  
+                        <span id="metricString" class="text-cyan-400 font-bold tracking-wider">-</span>  
+                    </div>  
+                    <div class="flex justify-between items-center">  
+                        <span class="text-slate-500">Magic Number Key:</span>  
+                        <span id="metricDigits" class="text-amber-400 font-bold tracking-widest">-</span>  
+                    </div>  
+                    <div class="flex justify-between items-center">  
+                        <span class="text-slate-500 font-semibold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-300 to-amber-300">Temporal Alignment:</span>  
+                        <span id="metricTemporal" class="font-bold text-xs uppercase tracking-wide">-</span>  
+                    </div>  
+                    <div class="flex justify-between items-center">  
+                        <span class="text-slate-500 font-semibold text-transparent bg-clip-text bg-gradient-to-r from-runeRed to-amber-500">Inscriptional Polarity:</span>  
+                        <span id="metricPolarity" class="font-bold text-xs uppercase tracking-wide">-</span>  
+                    </div>  
+                    <div class="flex justify-between items-center">  
+                        <span class="text-slate-500">Aunt Yeashi's Karmic Stability:</span>  
+                        <span id="metricStability" class="text-slate-400 font-bold uppercase">-</span>  
+                    </div>  
+  
+                    <!-- Dynamic Vessel Containment Monitor (Lore Compliant Model) -->  
+                    <div class="flex flex-col gap-1.5 border-t border-slate-800/40 pt-2.5">  
+                        <div class="flex justify-between items-center">  
+                            <span class="text-slate-500">Vessel Containment Status:</span>  
+                            <span id="containmentStatus" class="font-bold uppercase tracking-wider">-</span>  
+                        </div>  
+                        <div class="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-900 flex">  
+                            <div id="containmentBar" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full transition-all duration-500" style="width: 0%;"></div>  
+                        </div>  
+                        <div class="flex justify-between items-center text-[10px] text-slate-500">  
+                            <span>Vow Power: <strong id="metricPowerVal" class="text-orange-400">-</strong></span>  
+                            <span>Containment Capacity: <strong id="metricCapacityVal" class="text-slate-300">-</strong></span>  
+                        </div>  
+                    </div>  
+  
+                    <!-- Compression Diagnostics Output Row -->  
+                    <div class="flex justify-between items-center text-[11px] text-slate-500 border-t border-slate-800/40 pt-2">  
+                        <span>Sigil Inscription Quality:</span>  
+                        <span id="metricQuality" class="text-emerald-400 font-medium">-</span>  
+                    </div>  
+                </div>  
+  
+                <!-- Lab Diagnostics Log -->  
+                <div class="w-full bg-slate-950 rounded border border-slate-900 p-3 text-[11px] text-slate-400 font-mono flex flex-col gap-1 max-h-[110px] overflow-y-auto">  
+                    <div class="text-[9px] text-slate-500 font-bold uppercase tracking-wider border-b border-slate-900 pb-1 mb-1">Live Diagnostics Terminal</div>  
+                    <div id="diagnosticsConsole" class="flex flex-col gap-0.5">  
+                        <span class="text-cyan-500/80">&gt; System initialized. Awaiting Sankalp input.</span>  
+                    </div>  
+                </div>  
+  
+                <!-- Share, Registry, and Export Action Hub -->  
+                <div class="w-full flex flex-col gap-2.5 mt-1">  
+                    <div class="flex gap-2">  
+                        <button id="saveSigilBtn" onclick="saveToLibrary()" class="flex-1 bg-[#141935] hover:bg-indigo-950 border border-indigo-900/60 text-indigo-300 py-2.5 px-3 rounded text-xs font-bold uppercase transition-all flex items-center justify-center gap-2">  
+                            💾 Archive Sigil  
+                        </button>  
+                        <button id="copySigilBtn" onclick="copySigilCode()" class="flex-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 py-2.5 px-3 rounded text-xs font-bold uppercase transition-all flex items-center justify-center gap-2">  
+                            🔗 Copy Matrix Code  
+                        </button>  
+                    </div>  
+                    <!-- Real-time SVG & PNG Exporters -->  
+                    <div class="flex gap-2 border-t border-slate-800/60 pt-2">  
+                        <button onclick="exportSVG()" class="flex-1 bg-cyan-950/20 hover:bg-cyan-950/40 border border-cyan-900/60 text-cyan-400 py-2.5 px-3 rounded text-[11px] font-bold uppercase transition-all flex items-center justify-center gap-1.5">  
+                            📐 Export SVG  
+                        </button>  
+                        <button onclick="exportPNG()" class="flex-1 bg-emerald-950/20 hover:bg-emerald-950/40 border border-emerald-900/60 text-emerald-400 py-2.5 px-3 rounded text-[11px] font-bold uppercase transition-all flex items-center justify-center gap-1.5">  
+                            🖼️ Export PNG  
+                        </button>  
+                    </div>  
+                </div>  
+  
+            </div>  
+  
+        </section>  
+  
+    </main>  
+  
+    <!-- Bottom Section: Sigil Library & Instructions Tab -->  
+    <footer class="max-w-6xl mx-auto px-4 md:px-6 w-full mb-10 mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">  
+          
+        <!-- Saved Library Catalog -->  
+        <div class="bg-[#070918] border border-[#141830] rounded-lg p-5 flex flex-col gap-4 shadow-xl">  
+            <h3 class="text-sm font-bold tracking-wider text-cyan-400 uppercase border-b border-slate-800 pb-2">Archived Sigils Library</h3>  
+              
+            <div id="libraryContainer" class="flex flex-col gap-2.5 max-h-[260px] overflow-y-auto pr-1">  
+                <!-- Fallback item -->  
+                <p id="emptyLibraryMsg" class="text-xs text-slate-500 italic text-center py-8">No saved vows in the local chamber yet. Press "Archive Sigil" to keep records.</p>  
+            </div>  
+        </div>  
+  
+        <!-- Aunt Yeashi's Guidebook -->  
+        <div class="bg-[#070918]/50 border border-[#141830] rounded-lg p-5 flex flex-col gap-3 shadow-xl">  
+            <h3 class="text-sm font-bold tracking-wider text-emerald-400 uppercase border-b border-slate-800 pb-2">Lab Manual & Lore Guidelines</h3>  
+              
+            <div class="text-xs text-slate-400 flex flex-col gap-3 leading-relaxed">  
+                <p>  
+                    <strong class="text-slate-300">The Sankalp Principle:</strong> Raw Power resides completely inside the <span class="text-amber-400">Commitment Tier</span>. The vessel does not generate current—it only holds and channels it.  
+                </p>  
+                <p>  
+                    <strong class="text-slate-300">Vessel Capacity Profiles:</strong>   
+                    <span class="text-amber-500">Paper</span> (Max: 20),   
+                    <span class="text-emerald-400">Jade</span> (Max: 60),   
+                    <span class="text-slate-300">Iron</span> (Max: 120),  
+                    <span class="text-red-400">Bone</span> (Max: 250), and  
+                    <span class="text-yellow-400">Gold</span> (Max: 500). If vow power exceeds capacity, containment failure occurs.  
+                </p>  
+                <p>  
+                    <strong class="text-slate-300">Polarity Charge Effects:</strong>  
+                    Hard Negatives generate <strong class="text-rose-500">Inversion Interference</strong>, mirroring matrix nodes. Absence words (*Lack*, *Empty*, *Void*, *Hollow*) trigger <strong class="text-orange-300">Void Leakage</strong> which fractures paths. Defiance verbs (*Stop*, *Overcome*, *Resist*) bypass penalty systems, directly bolstering the structural Sankalp Power.  
+                </p>  
+            </div>  
+        </div>  
+  
+    </footer>  
+  
+    <!-- Custom Floating Alert Modal -->  
+    <div id="customAlertModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">  
+        <div class="bg-[#0c0f24] border-2 border-cyan-400 rounded-lg p-6 max-w-sm w-full text-center flex flex-col gap-4 shadow-2xl">  
+            <div class="text-3xl" id="alertIcon">🔮</div>  
+            <h4 class="text-md font-bold text-slate-200 tracking-wider uppercase" id="alertTitle">System Broadcast</h4>  
+            <p class="text-xs text-slate-400 leading-relaxed" id="alertMessage"></p>  
+            <button onclick="closeAlertModal()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded text-xs uppercase tracking-wider transition-all">Close Transmission</button>  
+        </div>  
+    </div>  
+  
+    <script>  
+        // Audio synthesis engine setup (Web Audio API)  
+        let audioCtx = null;  
+        let isAudioMuted = true;  
+        let activeAnimationId = null;  
+  
+        // Core Mapping Architecture (Laone Alphabet Wheel Compression System)  
+        const charToDigitMap = {  
+            'B':1, 'C':2, 'D':3, 'F':4, 'G':5, 'H':6, 'J':7, 'K':8, 'L':9,  
+            'M':1, 'N':2, 'P':3, 'Q':4, 'R':5, 'S':6, 'T':7, 'V':8, 'W':9,  
+            'X':1, 'Y':2, 'Z':3  
+        };  
+  
+        // Grid coordinates matching standard Lo Shu Magic Square layout:  
+        // Row 1: 8, 1, 6 | Row 2: 3, 5, 7 | Row 3: 4, 9, 2  
+        const baseGridCoords = {  
+            1: {x: 50, y: 25}, // Position 2: Value 1 (Top-Middle)  
+            2: {x: 75, y: 75}, // Position 9: Value 2 (Bottom-Right)  
+            3: {x: 25, y: 50}, // Position 4: Value 3 (Middle-Left)  
+            4: {x: 25, y: 75}, // Position 7: Value 4 (Bottom-Left)  
+            5: {x: 50, y: 50}, // Position 5: Value 5 (Center)  
+            6: {x: 75, y: 25}, // Position 3: Value 6 (Top-Right)  
+            7: {x: 75, y: 50}, // Position 6: Value 7 (Middle-Right)  
+            8: {x: 25, y: 25}, // Position 1: Value 8 (Top-Left)  
+            9: {x: 50, y: 75}  // Position 8: Value 9 (Bottom-Middle)  
+        };  
+  
+        // Multiplied dynamic coordinates based on inversion interference  
+        let activeGridCoords = { ...baseGridCoords };  
+  
+        // Commitment Resistance Power Configuration  
+        const commitmentPower = {  
+            habit: 10,  
+            discipline: 30,  
+            identity: 60,  
+            blood: 100,  
+            royal: 150  
+        };  
+  
+        // Vessel Containment Capacity Metrics (Absolute ceilings representing spatial mass)  
+        const vesselCapacities = {  
+            paper: 20,  
+            jade: 60,  
+            iron: 120,  
+            bone: 250,  
+            gold: 500  
+        };  
+  
+        // Pentatonic magic frequencies mapped for chime arpeggios  
+        const toneFreqs = {  
+            1: 261.63, // C4  
+            2: 293.66, // D4  
+            3: 329.63, // E4  
+            4: 392.00, // G4  
+            5: 440.00, // A4  
+            6: 523.25, // C5  
+            7: 587.33, // D5  
+            8: 659.25, // E5  
+            9: 783.99  // G5  
+        };  
+  
+        // Default app states  
+        let selectedVessel = 'paper';  
+        let currentSankalpData = {  
+            vow: "",  
+            vessel: "paper",  
+            compressedString: "",  
+            digits: [],  
+            stability: "STABLE",  
+            commitment: "habit",  
+            power: 10,  
+            originalLength: 0,  
+            compressionRate: 0,  
+            temporalPhase: "PRESENT_ALIGNMENT",  
+            polarityCharge: "PURE_DIRECTIVE"  
+        };  
+  
+        // Interactive saved array loaded via local storage  
+        let savedLibrary = [];  
+  
+        // Real-time Runtime Loop Visualizer  
+        let startTime = Date.now();  
+        setInterval(() => {  
+            const elapsed = (Date.now() - startTime) / 1000;  
+            const runtimeEl = document.getElementById('runtimeClock');  
+            if (runtimeEl) {  
+                runtimeEl.innerText = `SYS_SEC: ${elapsed.toFixed(2).padStart(6, '0')}`;  
+            }  
+        }, 100);  
+  
+        // Core Init with Persistence Handlers & Page-load Triggers  
+        window.onload = () => {  
+            // Load saved state from Local Storage securely  
+            try {  
+                const stored = localStorage.getItem("sankalpLibrary");  
+                savedLibrary = stored ? JSON.parse(stored) : [];  
+            } catch (err) {  
+                logConsole("Faulty library state detected. Re-initializing.");  
+                savedLibrary = [];  
+            }  
+  
+            const defaultVow = "I am giving my aunt good morning and good night kiss on everyday for a week";  
+            const inputEl = document.getElementById('vowInput');  
+            if (inputEl) {  
+                inputEl.value = defaultVow;  
+            }  
+              
+            selectVessel('paper');  
+            analyzeSankalp();  
+            forgeSigil(); // Properly triggers tracing and visualization right on startup!  
+            updateLibraryDOM();  
+              
+            logConsole("Aunt Yeashi's persistent matrix workstation initialized.");  
+        };  
+  
+        // Dynamic Occult Tense and Polarity Analysis (Replacing basic grammar validation)  
+        function analyzeSankalp() {  
+            const inputEl = document.getElementById('vowInput');  
+            if (!inputEl) return;  
+  
+            const text = inputEl.value;  
+            const textUpper = text.toUpperCase();  
+              
+            const charCountEl = document.getElementById('charCount');  
+            if (charCountEl) {  
+                charCountEl.innerText = `${text.length} chars`;  
+            }  
+  
+            // 1. Magical Tense Detection  
+            const futureMarkers = ["WILL", "SHALL", "GOING TO", "SOMEDAY", "LATER", "EVENTUALLY", "TOMORROW", "NEXT"];  
+            const pastMarkers = ["WAS", "WERE", "HAD", "DID", "USED TO"];  
+  
+            let temporalPhase = "PRESENT_ALIGNMENT";  
+              
+            // Check past tense (including standard "-ED" endings)  
+            let hasPast = pastMarkers.some(marker => textUpper.includes(marker));  
+            if (!hasPast) {  
+                // regex scan for ending in ED  
+                const words = textUpper.split(/[^A-Z]/);  
+                hasPast = words.some(w => w.endsWith("ED") && w.length > 2);  
+            }  
+  
+            let hasFuture = futureMarkers.some(marker => textUpper.includes(marker));  
+  
+            if (hasFuture) {  
+                temporalPhase = "FUTURE_PROJECTION";  
+            } else if (hasPast) {  
+                temporalPhase = "PAST_ECHO";  
+            }  
+  
+            // 2. Inscriptional Polarity Charge Detection (Including contractions & void expanders)  
+            const hardNegatives = [  
+                "NOT", "NEVER", "NO", "NONE", "NOTHING", "NOWHERE", "NOBODY", "NEITHER", "NOR", "WITHOUT",  
+                "CANNOT", "CAN'T", "WON'T", "DON'T", "DOESN'T", "ISN'T", "AREN'T", "WASN'T", "WEREN'T"  
+            ];  
+            const absenceWords = [  
+                "LACK", "MISSING", "EMPTY", "VOID", "ABSENT", "LOSS", "LOST",  
+                "LESS", "DEPRIVED", "DEFICIENT", "INCOMPLETE", "VACANT", "HOLLOW"  
+            ];  
+            const resistanceWords = ["STOP", "QUIT", "AVOID", "RESIST", "PREVENT", "REFUSE", "OVERCOME"];  
+  
+            let polarityCharge = "PURE_DIRECTIVE";  
+            let triggeredWords = [];  
+  
+            // Splitting with apostrophe preserve to match contractions (e.g. "DON'T")  
+            const cleanWords = textUpper.split(/[^A-Z']/).filter(Boolean);  
+  
+            // Scan lists  
+            let hasHardNegative = cleanWords.some(w => {  
+                if (hardNegatives.includes(w)) {  
+                    triggeredWords.push(w);  
+                    return true;  
+                }  
+                return false;  
+            });  
+  
+            let hasAbsence = false;  
+            if (!hasHardNegative) {  
+                hasAbsence = cleanWords.some(w => {  
+                    if (absenceWords.includes(w)) {  
+                        triggeredWords.push(w);  
+                        return true;  
+                    }  
+                    return false;  
+                });  
+            }  
+  
+            let hasResistance = cleanWords.some(w => resistanceWords.includes(w));  
+  
+            if (hasHardNegative) {  
+                polarityCharge = "INVERSION_INTERFERENCE";  
+            } else if (hasAbsence) {  
+                polarityCharge = "VOID_LEAKAGE";  
+            } else if (hasResistance) {  
+                polarityCharge = "RESISTANCE_FORTIFIED";  
+            }  
+  
+            // Display Immersive Diagnostic Notifications  
+            const diagBox = document.getElementById('temporalWarningBox');  
+            if (diagBox) {  
+                diagBox.className = "text-xs p-3 rounded-md border flex flex-col gap-1.5 transition-all";  
+                diagBox.classList.remove('hidden');  
+  
+                const titleEl = document.getElementById('temporalTitle');  
+                const tagEl = document.getElementById('temporalTag');  
+                const textEl = document.getElementById('temporalText');  
+  
+                if (temporalPhase === "FUTURE_PROJECTION") {  
+                    if (titleEl) titleEl.innerText = "TEMPORAL ANOMALY DETECTED";  
+                    if (tagEl) {  
+                        tagEl.innerText = "FUTURE PROJECTION";  
+                        tagEl.className = "text-[9px] px-1.5 py-0.5 rounded uppercase font-semibold bg-amber-500/20 text-amber-400 border border-amber-500/30";  
+                    }  
+                    if (textEl) textEl.innerHTML = "The vow points toward a reality that does not yet exist. Active Sigil Mutation: <strong class='text-amber-400'>Temporal Drift</strong>. Expected Stability reduction in progress.";  
+                    diagBox.classList.add('bg-amber-950/20', 'border-amber-900/40');  
+                    diagBox.classList.remove('bg-indigo-950/20', 'border-indigo-900/40', 'bg-emerald-950/20', 'border-emerald-900/40', 'bg-red-950/20', 'border-red-900/40');  
+                } else if (temporalPhase === "PAST_ECHO") {  
+                    if (titleEl) titleEl.innerText = "TEMPORAL RESONANCE ACTIVE";  
+                    if (tagEl) {  
+                        tagEl.innerText = "PAST ECHO";  
+                        tagEl.className = "text-[9px] px-1.5 py-0.5 rounded uppercase font-semibold bg-indigo-500/20 text-indigo-400 border border-indigo-500/30";  
+                    }  
+                    if (textEl) textEl.innerHTML = "The sigil reflects upon a completed reality. Active Sigil Mutation: <strong class='text-indigo-400'>Memory Resonance Loop</strong>. Double-traced vector pathways detected.";  
+                    diagBox.classList.add('bg-indigo-950/20', 'border-indigo-900/40');  
+                    diagBox.classList.remove('bg-amber-950/20', 'border-amber-900/40', 'bg-emerald-950/20', 'border-emerald-900/40', 'bg-red-950/20', 'border-red-900/40');  
+                } else {  
+                    // Present Alignment  
+                    if (polarityCharge === "INVERSION_INTERFERENCE") {  
+                        if (titleEl) titleEl.innerText = "POLARITY INVERSION INTERFERENCE";  
+                        if (tagEl) {  
+                            tagEl.innerText = "CRITICAL INVERSION";  
+                            tagEl.className = "text-[9px] px-1.5 py-0.5 rounded uppercase font-semibold bg-red-500/20 text-red-400 border border-red-500/30";  
+                        }  
+                        if (textEl) textEl.innerHTML = `Vow contains heavy inversion anchor (<strong class='text-red-400'>${triggeredWords.join(', ')}</strong>). Active Sigil Mutation: <strong class='text-rose-500 font-bold'>Nodes Reversed</strong>. High aura stress.`;  
+                        diagBox.classList.add('bg-red-950/20', 'border-red-900/40');  
+                        diagBox.classList.remove('bg-amber-950/20', 'border-amber-900/40', 'bg-indigo-950/20', 'border-indigo-900/40', 'bg-emerald-950/20', 'border-emerald-900/40');  
+                    } else if (polarityCharge === "VOID_LEAKAGE") {  
+                        if (titleEl) titleEl.innerText = "SPATIAL VOID LEAKAGE DETECTED";  
+                        if (tagEl) {  
+                            tagEl.innerText = "VOID LEAKAGE";  
+                            tagEl.className = "text-[9px] px-1.5 py-0.5 rounded uppercase font-semibold bg-orange-500/20 text-orange-400 border border-orange-500/30";  
+                        }  
+                        if (textEl) textEl.innerHTML = `Vow contains spatial vacancy indicators (<strong class='text-orange-400'>${triggeredWords.join(', ')}</strong>). Path integrity fractured. Sigil Mutation: <strong class='text-orange-400'>Dashed Vectors</strong>.`;  
+                        diagBox.classList.add('bg-orange-950/20', 'border-orange-900/40');  
+                        diagBox.classList.remove('bg-amber-950/20', 'border-amber-900/40', 'bg-indigo-950/20', 'border-indigo-900/40', 'bg-emerald-950/20', 'border-emerald-900/40', 'bg-red-950/20', 'border-red-900/40');  
+                    } else if (polarityCharge === "RESISTANCE_FORTIFIED") {  
+                        if (titleEl) titleEl.innerText = "KINETIC RESISTANCE BOOSTER ACTIVE";  
+                        if (tagEl) {  
+                            tagEl.innerText = "POLARITY SECURED";  
+                            tagEl.className = "text-[9px] px-1.5 py-0.5 rounded uppercase font-semibold bg-blue-500/20 text-blue-400 border border-blue-500/30";  
+                        }  
+                        if (textEl) textEl.innerHTML = "Active resistance markers recognized as positive intention shields. Pure defensive Sankalp signature. <strong class='text-blue-400'>Aura Armor boost initialized.</strong>";  
+                        diagBox.classList.add('bg-blue-950/20', 'border-blue-900/40');  
+                        diagBox.classList.remove('bg-amber-950/20', 'border-amber-900/40', 'bg-indigo-950/20', 'border-indigo-900/40', 'bg-emerald-950/20', 'border-emerald-900/40', 'bg-red-950/20', 'border-red-900/40');  
+                    } else {  
+                        if (titleEl) titleEl.innerText = "TEMPORAL ALIGNMENT SECURED";  
+                        if (tagEl) {  
+                            tagEl.innerText = "PRESENT ALIGNMENT";  
+                            tagEl.className = "text-[9px] px-1.5 py-0.5 rounded uppercase font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";  
+                        }  
+                        if (textEl) textEl.innerHTML = "Intention aligns directly with instant, active present reality. Stable geometric projection ready.";  
+                        diagBox.classList.add('bg-emerald-950/20', 'border-emerald-900/40');  
+                        diagBox.classList.remove('bg-amber-950/20', 'border-amber-900/40', 'bg-indigo-950/20', 'border-indigo-900/40', 'bg-red-950/20', 'border-red-900/40');  
+                    }  
+                }  
+            }  
+  
+            // Save temporary parsed values on the fly to support dynamic calculation states  
+            currentSankalpData.temporalPhase = temporalPhase;  
+            currentSankalpData.polarityCharge = polarityCharge;  
+        }  
+  
+        // Handle selection of material layers with advanced vessel metrics  
+        function selectVessel(type) {  
+            selectedVessel = type;  
+              
+            // Toggle active style borders on selections  
+            const options = ['paper', 'jade', 'iron', 'bone', 'gold'];  
+            options.forEach(opt => {  
+                const el = document.getElementById(`vOption-${opt}`);  
+                if (el) {  
+                    if (opt === type) {  
+                        el.classList.add('ring-2', 'ring-cyan-400', 'bg-cyan-950/10');  
+                    } else {  
+                        el.classList.remove('ring-2', 'ring-cyan-400', 'bg-cyan-950/10');  
+                    }  
+                }  
+            });  
+  
+            // Adjust canvas backgrounds & SVG classes  
+            const canvas = document.getElementById('vesselCanvas');  
+            if (canvas) {  
+                canvas.className = 'w-full h-full rounded-2xl relative flex items-center justify-center overflow-hidden transition-all duration-700 ease-out shadow-2xl pulsing-vessel border-4';  
+            }  
+              
+            const path = document.getElementById('sigilPath');  
+            const start = document.getElementById('startAnchor');  
+            const end = document.getElementById('endAnchor');  
+  
+            if (type === 'paper') {  
+                if (canvas) canvas.classList.add('bg-stone-200', 'border-amber-700/50');  
+                if (path) {  
+                    path.setAttribute('class', 'glow-cyan-filter');  
+                    path.setAttribute('stroke', '#a21caf'); // Magical pink  
+                }  
+                if (start) start.setAttribute('stroke', '#a21caf');  
+                if (end) end.setAttribute('fill', '#a21caf');  
+                logConsole("Sealed Paper Talisman template: High flux rate active.");  
+            } else if (type === 'jade') {  
+                if (canvas) canvas.classList.add('bg-teal-950', 'border-emerald-600/50');  
+                if (path) {  
+                    path.setAttribute('class', 'glow-green-filter');  
+                    path.setAttribute('stroke', '#10b981'); // Emerald  
+                }  
+                if (start) start.setAttribute('stroke', '#10b981');  
+                if (end) end.setAttribute('fill', '#10b981');  
+                logConsole("Aligned Jade Artifact: Harmonic state isolation established.");  
+            } else if (type === 'iron') {  
+                if (canvas) canvas.classList.add('bg-[#14151a]', 'border-slate-700');  
+                if (path) {  
+                    path.setAttribute('class', 'glow-cyan-filter');  
+                    path.setAttribute('stroke', '#00f0ff'); // Cyan glow  
+                }  
+                if (start) start.setAttribute('stroke', '#00f0ff');  
+                if (end) end.setAttribute('fill', '#00f0ff');  
+                logConsole("Forged Iron Rune Vessel: Dense anchors operational.");  
+            } else if (type === 'bone') {  
+                if (canvas) canvas.classList.add('bg-[#f3efeb]', 'border-red-900/60');  
+                if (path) {  
+                    path.setAttribute('class', 'glow-red-filter');  
+                    path.setAttribute('stroke', '#dc2626'); // Blood Crimson glow  
+                }  
+                if (start) start.setAttribute('stroke', '#dc2626');  
+                if (end) end.setAttribute('fill', '#dc2626');  
+                logConsole("Inscribed Bone Relic: Bloodline legacy connection established.");  
+            } else if (type === 'gold') {  
+                if (canvas) canvas.classList.add('bg-[#1a1303]', 'border-amber-500');  
+                if (path) {  
+                    path.setAttribute('class', 'glow-gold-filter');  
+                    path.setAttribute('stroke', '#fbbf24'); // Sun Gold glow  
+                }  
+                if (start) start.setAttribute('stroke', '#fbbf24');  
+                if (end) end.setAttribute('fill', '#fbbf24');  
+                logConsole("Forged Gold Tabernacle: Royal destiny traces enabled.");  
+            }  
+  
+            evaluateCurrentStability();  
+        }  
+  
+        // Evaluate dynamic karma levels and sankalp strength values  
+        function evaluateCurrentStability() {  
+            const stabilityLabel = document.getElementById('metricStability');  
+            const temporalLabel = document.getElementById('metricTemporal');  
+            const polarityLabel = document.getElementById('metricPolarity');  
+  
+            // Containment UI elements  
+            const statusLabel = document.getElementById('containmentStatus');  
+            const statusBar = document.getElementById('containmentBar');  
+            const valPower = document.getElementById('metricPowerVal');  
+            const valCapacity = document.getElementById('metricCapacityVal');  
+  
+            // Commitment input guard  
+            const commitmentEl = document.getElementById('commitmentTier');  
+            const commitment = commitmentEl ? commitmentEl.value : 'habit';  
+  
+            // Live temporal alignments  
+            const phase = currentSankalpData.temporalPhase || "PRESENT_ALIGNMENT";  
+            const charge = currentSankalpData.polarityCharge || "PURE_DIRECTIVE";  
+  
+            // Render phase badges  
+            if (temporalLabel) {  
+                if (phase === "FUTURE_PROJECTION") {  
+                    temporalLabel.innerText = "Future Projection";  
+                    temporalLabel.className = "text-amber-400 font-bold";  
+                } else if (phase === "PAST_ECHO") {  
+                    temporalLabel.innerText = "Past Echo";  
+                    temporalLabel.className = "text-indigo-400 font-bold";  
+                } else {  
+                    temporalLabel.innerText = "Present Alignment";  
+                    temporalLabel.className = "text-emerald-400 font-bold";  
+                }  
+            }  
+  
+            // Render polarity charge labels  
+            if (polarityLabel) {  
+                if (charge === "INVERSION_INTERFERENCE") {  
+                    polarityLabel.innerText = "Inversion Interference";  
+                    polarityLabel.className = "text-rose-500 font-bold animate-pulse";  
+                } else if (charge === "VOID_LEAKAGE") {  
+                    polarityLabel.innerText = "Void Leakage";  
+                    polarityLabel.className = "text-orange-400 font-bold";  
+                } else if (charge === "RESISTANCE_FORTIFIED") {  
+                    polarityLabel.innerText = "Resistance Fortified";  
+                    polarityLabel.className = "text-blue-400 font-bold";  
+                } else {  
+                    polarityLabel.innerText = "Pure Directive";  
+                    polarityLabel.className = "text-slate-400 font-bold";  
+                }  
+            }  
+  
+            // Compute dynamic Sankalp Power (Comes completely from commitment tier!)  
+            let totalPower = commitmentPower[commitment] || 10;  
+              
+            // Add resistance bonus  
+            if (charge === "RESISTANCE_FORTIFIED") {  
+                totalPower += 25; // Aura armor fortifies the Sankalp itself!  
+            }  
+  
+            // Get absolute capacity from vessel model  
+            const capacity = vesselCapacities[selectedVessel];  
+            const ratio = totalPower / capacity;  
+            const percentage = Math.min((ratio * 100), 100);  
+  
+            // Update containment bar robustly  
+            if (statusBar) statusBar.style.width = `${percentage}%`;  
+            if (valPower) valPower.innerText = `${totalPower} units`;  
+            if (valCapacity) valCapacity.innerText = `${capacity} units`;  
+  
+            const canvas = document.getElementById('vesselCanvas');  
+            const isOverloaded = totalPower > capacity;  
+  
+            if (isOverloaded) {  
+                if (statusLabel) {  
+                    statusLabel.innerText = "⚠️ CONTAINMENT FAILURE / OVERLOAD";  
+                    statusLabel.className = "text-red-500 font-extrabold animate-pulse";  
+                }  
+                if (statusBar) statusBar.className = "bg-gradient-to-r from-red-600 to-orange-500 h-full transition-all duration-500";  
+                if (canvas) canvas.classList.add('containment-breach');  
+            } else {  
+                if (statusLabel) {  
+                    statusLabel.innerText = "CONTAINMENT SECURED";  
+                    statusLabel.className = "text-emerald-400 font-bold";  
+                }  
+                if (statusBar) statusBar.className = "bg-gradient-to-r from-emerald-500 to-teal-400 h-full transition-all duration-500";  
+                if (canvas) canvas.classList.remove('containment-breach');  
+            }  
+  
+            // Compute dynamic magical stability calculations (Aunt Yeashi's algorithm)  
+            let baseStability = 100;  
+              
+            // Deduct based on mutations and polarity anomalies  
+            if (phase === "FUTURE_PROJECTION") baseStability -= 13;  
+            if (phase === "PAST_ECHO") baseStability -= 15;  
+            if (charge === "INVERSION_INTERFERENCE") baseStability -= 40;  
+            if (charge === "VOID_LEAKAGE") baseStability -= 20;  
+  
+            // CRITICAL LORE PENALTY: Capacity Breach  
+            if (isOverloaded) {  
+                // Instantly penalize stability based on breach depth ratio  
+                baseStability -= Math.round(35 * ratio);  
+            }  
+  
+            // Clamp stability bounds  
+            baseStability = Math.max(3, Math.min(baseStability, 99));  
+  
+            if (stabilityLabel) {  
+                let rating = "STABLE";  
+                if (baseStability < 35) {  
+                    rating = `CRITICAL VOLATILITY (${baseStability}% Stability)`;  
+                    stabilityLabel.className = "text-red-500 font-bold animate-pulse";  
+                } else if (baseStability < 70) {  
+                    rating = `MUTATING OSCILLATION (${baseStability}% Stability)`;  
+                    stabilityLabel.className = "text-yellow-500 font-bold";  
+                } else {  
+                    rating = `ALIGNED RESISTANT (${baseStability}% Stability)`;  
+                    stabilityLabel.className = "text-emerald-400 font-bold";  
+                }  
+                stabilityLabel.innerText = rating;  
+                currentSankalpData.stability = rating;  
+            }  
+  
+            currentSankalpData.power = totalPower;  
+            currentSankalpData.commitment = commitment;  
+        }  
+  
+        // Log actions directly to system diagnostic terminal console  
+        function logConsole(message) {  
+            const consoleBox = document.getElementById('diagnosticsConsole');  
+            if (consoleBox) {  
+                const timeStr = new Date().toLocaleTimeString().split(' ')[0];  
+                const div = document.createElement('div');  
+                div.className = "text-[11px] leading-tight";  
+                div.innerHTML = `<span class="text-slate-500">[${timeStr}]</span> <span class="text-indigo-300">&gt;</span> ${message}`;  
+                consoleBox.appendChild(div);  
+                consoleBox.scrollTop = consoleBox.scrollHeight;  
+            }  
+        }  
+  
+        // Toggle Audio Synth  
+        function toggleAudio() {  
+            if (!audioCtx) {  
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();  
+            }  
+            isAudioMuted = !isAudioMuted;  
+            const icon = document.getElementById('audioIcon');  
+            const status = document.getElementById('audioStatusText');  
+            if (isAudioMuted) {  
+                if (icon) icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>`;  
+                if (status) status.innerText = "AUDIO: MUTED";  
+                logConsole("Arcane Audio Synthesizer disconnected.");  
+            } else {  
+                if (icon) icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>`;  
+                if (status) status.innerText = "AUDIO: SYNCED";  
+                logConsole("Synthesizer ready. Arpeggios mapped to pentatonic magic scale.");  
+            }  
+        }  
+  
+        // Play individual pentatonic tone precisely matched with animated tracing  
+        function playSingleTone(digit, isSpecialTriangle = false) {  
+            if (isAudioMuted || !audioCtx) return;  
+            const freq = toneFreqs[digit] || 440;  
+            const osc = audioCtx.createOscillator();  
+            const gain = audioCtx.createGain();  
+              
+            osc.type = isSpecialTriangle ? 'triangle' : 'sine';  
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);  
+              
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);  
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);  
+              
+            osc.connect(gain);  
+            gain.connect(audioCtx.destination);  
+              
+            osc.start();  
+            osc.stop(audioCtx.currentTime + 1.5);  
+        }  
+  
+        // Decending secondary delay loops to support Past Echo mutations  
+        function playEchoTone(digit) {  
+            if (isAudioMuted || !audioCtx) return;  
+            const freq = toneFreqs[digit] || 440;  
+            const osc = audioCtx.createOscillator();  
+            const gain = audioCtx.createGain();  
+              
+            osc.type = 'sine';  
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);  
+              
+            gain.gain.setValueAtTime(0.04, audioCtx.currentTime);  
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.0);  
+              
+            osc.connect(gain);  
+            gain.connect(audioCtx.destination);  
+              
+            osc.start();  
+            osc.stop(audioCtx.currentTime + 1.2);  
+        }  
+  
+        // Highlights specific node guidepin with a brief expand/glow pulse  
+        function highlightGuidePin(digit) {  
+            const pin = document.getElementById(`pin-${digit}`);  
+            if (pin) {  
+                pin.setAttribute('r', '3.5');  
+                pin.setAttribute('opacity', '0.8');  
+                setTimeout(() => {  
+                    pin.setAttribute('r', '1.5');  
+                    pin.setAttribute('opacity', '0.25');  
+                }, 300);  
+            }  
+        }  
+  
+        // Compress and weave core Sankalp Sigil with deep structural mutations  
+        function forgeSigil() {  
+            const inputEl = document.getElementById('vowInput');  
+            if (!inputEl) return;  
+            let text = inputEl.value.trim();  
+            if (!text) {  
+                showAlert("🔮 Validation Inversion", "You cannot weave an empty vow, initiate. Input your resolve.", "⚠️");  
+                return;  
+            }  
+  
+            // Sync structural analysis indicators  
+            analyzeSankalp();  
+  
+            const commitmentEl = document.getElementById('commitmentTier');  
+            const commitment = commitmentEl ? commitmentEl.value : 'habit';  
+            const temporalPhase = currentSankalpData.temporalPhase;  
+            const polarityCharge = currentSankalpData.polarityCharge;  
+  
+            logConsole(`Sankalp deconstruction sequence started.`);  
+  
+            // Original clean characters length excluding blank spaces (for compression quality logic)  
+            const cleanSourceString = text.replace(/[^A-Za-z]/g, '');  
+            const originalLength = cleanSourceString.length || 1;  
+  
+            // Convert character syllables to numerical digits  
+            const textUpper = text.toUpperCase();  
+            let filteredCon = '';  
+            for (let char of textUpper) {  
+                if (charToDigitMap[char]) {  
+                    filteredCon += char;  
+                }  
+            }  
+  
+            // Global compression.  
+            // Each consonant may appear only once.  
+            let uniqueStr = '';  
+            for (let char of filteredCon) {  
+                if (uniqueStr.indexOf(char) === -1) {  
+                    uniqueStr += char;  
+                }  
+            }  
+  
+            if (uniqueStr.length === 0) {  
+                uniqueStr = 'SANKALP';  
+            }  
+  
+            // Core digits mappings (1 to 9 coordinates)  
+            let digitSequence = [];  
+            for (let char of uniqueStr) {  
+                if (charToDigitMap[char]) {  
+                    digitSequence.push(charToDigitMap[char]);  
+                }  
+            }  
+  
+            // Purge recurring coordinates to optimize grid trace flow  
+            let uniqueDigits = [];  
+            for (let d of digitSequence) {  
+                if (uniqueDigits.indexOf(d) === -1) {  
+                    uniqueDigits.push(d);  
+                }  
+            }  
+  
+            // LORE-FRIENDLY SUB-NODE EXPANDER: If the vow is extremely short (e.g., collapsed coordinate paths),  
+            // Aunt Yeashi's system automatically interpolates magic-harmonic sub-nodes (consonant mathematical steps)  
+            // so the geometric signature does not collapse into a single broken line segment!  
+            if (uniqueDigits.length < 4) {  
+                logConsole("Linguistic coordinate collapse detected. Injecting geometric stabilizer sub-nodes...");  
+                let stabilized = [];  
+                uniqueDigits.forEach((digit, idx) => {  
+                    stabilized.push(digit);  
+                    if (idx < uniqueDigits.length - 1) {  
+                        // Interpolate a middle node via a Lo Shu magic key step: (d1 + d2) mod 9 + 1  
+                        const interpolated = ((digit + uniqueDigits[idx + 1]) % 9) + 1;  
+                        if (!stabilized.includes(interpolated)) {  
+                            stabilized.push(interpolated);  
+                        }  
+                    }  
+                });  
+                // Ensure boundary fallback triggers if still too tiny  
+                if (stabilized.length < 3) {  
+                    stabilized = [stabilized[0] || 8, 5, stabilized[1] || 2];  
+                }  
+                uniqueDigits = stabilized;  
+            }  
+  
+            // Boundary fallback configs  
+            if (uniqueDigits.length < 2) {  
+                uniqueDigits = [1, 5, 9, 7, 3, 5, 2];  
+            }  
+  
+            // Apply grid coordinate modifications based on Inscriptional Charge  
+            if (polarityCharge === "INVERSION_INTERFERENCE") {  
+                logConsole("Polarity Inversion active: Re-aligning layout coordinates.");  
+                // Flip all coordinates diagonally  
+                activeGridCoords = {};  
+                for (let k in baseGridCoords) {  
+                    activeGridCoords[k] = {  
+                        x: 100 - baseGridCoords[k].x,  
+                        y: 100 - baseGridCoords[k].y  
+                    };  
+                }  
+            } else {  
+                // Restore standard coordinates  
+                activeGridCoords = { ...baseGridCoords };  
+            }  
+  
+            // Apply Temporal Phase mutations to numerical tracking arrays  
+            let finalDigits = [...uniqueDigits];  
+            if (temporalPhase === "PAST_ECHO") {  
+                logConsole("Temporal loop echo active: Tracing Memory Resonance.");  
+                // Mirror the path (8 -> 1 -> 5 -> 9 -> 9 -> 5 -> 1 -> 8)  
+                for (let i = uniqueDigits.length - 1; i >= 0; i--) {  
+                    finalDigits.push(uniqueDigits[i]);  
+                }  
+            }  
+  
+            // Compute compression metrics  
+            const compressedNodeCount = finalDigits.length;  
+            const compressionRate = ((1 - (compressedNodeCount / originalLength)) * 100).toFixed(1);  
+  
+            // Update globally held metrics  
+            currentSankalpData = {  
+                vow: text,  
+                vessel: selectedVessel,  
+                modifier: "none",  
+                compressedString: uniqueStr,  
+                digits: finalDigits,  
+                rawDigits: uniqueDigits, // standard key mapping  
+                stability: "STABLE",  
+                commitment: commitment,  
+                power: 10,  
+                originalLength: originalLength,  
+                compressionRate: parseFloat(compressionRate),  
+                temporalPhase: temporalPhase,  
+                polarityCharge: polarityCharge  
+            };  
+  
+            // Render Output indicators robustly  
+            const metricStringEl = document.getElementById('metricString');  
+            if (metricStringEl) metricStringEl.innerText = uniqueStr.substring(0, 16);  
+  
+            const metricDigitsEl = document.getElementById('metricDigits');  
+            if (metricDigitsEl) metricDigitsEl.innerText = uniqueDigits.join(' → ');  
+  
+            const metricQualityEl = document.getElementById('metricQuality');  
+            if (metricQualityEl) metricQualityEl.innerText = `Original: ${originalLength} glyphs | Compressed: ${compressedNodeCount} nodes | Compression: ${compressionRate}%`;  
+  
+            // Trigger animations & rendering cycles  
+            generateAtmosphericRunes(uniqueStr);  
+            evaluateCurrentStability();  
+            animateSigil(finalDigits, temporalPhase, polarityCharge);  
+  
+            // Post diagnostic warning to log console if overload breached  
+            const cap = vesselCapacities[selectedVessel];  
+            const activePower = currentSankalpData.power;  
+            if (activePower > cap) {  
+                logConsole(`⚠️ WARNING: Containment breach! Current Power (${activePower}) exceeds Vessel capacity (${cap}).`);  
+            } else {  
+                logConsole(`Sigil deconstruction completed: Beginning sequential inscriptional tracing.`);  
+            }  
+        }  
+  
+        // Animate dynamic drawing path sequentially node-by-node (Aunt Yeashi's Cinematic Tracing Engine)  
+        function animateSigil(digits, temporalPhase, polarityCharge) {  
+            // Terminate any running animation loops before launching new cycle  
+            if (activeAnimationId) {  
+                cancelAnimationFrame(activeAnimationId);  
+            }  
+  
+            const path = document.getElementById('sigilPath');  
+            const startAnchor = document.getElementById('startAnchor');  
+            const endAnchor = document.getElementById('endAnchor');  
+            const phantomPath = document.getElementById('futurePhantomPath');  
+            const phantomGroup = document.getElementById('futurePhantomGroup');  
+            const phantomNode = document.getElementById('futurePhantomNode');  
+  
+            if (!path || !startAnchor || !endAnchor || !phantomPath || !phantomGroup || !phantomNode) return;  
+  
+            // Reset visual indicators to absolute zeroes  
+            startAnchor.setAttribute('r', '0');  
+            endAnchor.setAttribute('r', '0');  
+            phantomPath.setAttribute('opacity', '0');  
+            phantomGroup.setAttribute('opacity', '0');  
+            path.setAttribute('d', '');  
+  
+            // Build path segment coordinate lists  
+            let coords = [];  
+            digits.forEach(d => {  
+                if (activeGridCoords[d]) {  
+                    coords.push({ ...activeGridCoords[d], digit: d });  
+                }  
+            });  
+  
+            if (coords.length < 2) return;  
+  
+            // Pre-calculate Future Drift coordinates (Fully unnumbered off-grid phantom node)  
+            const hasFuturePhantom = (temporalPhase === "FUTURE_PROJECTION");  
+            let phantomCoord = null;  
+            if (hasFuturePhantom) {  
+                const lastDigit = digits[digits.length - 1];  
+                const lastCoord = activeGridCoords[lastDigit] || {x: 50, y: 50};  
+                  
+                // Drift calculations heading diagonally out of the Lo Shu matrix boundaries  
+                const px = lastCoord.x + 22 > 95 ? lastCoord.x - 22 : lastCoord.x + 22;  
+                const py = lastCoord.y + 22 > 95 ? lastCoord.y - 22 : lastCoord.y + 22;  
+                phantomCoord = { x: px, y: py };  
+            }  
+  
+            // HIGH DRAMA PACING: Slipped duration to 1200ms per node for a gorgeous ceremonial trace ritual  
+            const segmentDuration = 1200;   
+            let startTime = null;  
+  
+            // Tracking set to ensure chimes only play once per segment node boundary  
+            let triggeredNodes = new Set();  
+  
+            function updateTrace(timestamp) {  
+                if (!startTime) startTime = timestamp;  
+                const elapsed = timestamp - startTime;  
+  
+                const normalSegments = coords.length - 1;  
+                const totalSegments = normalSegments + (hasFuturePhantom ? 1 : 0);  
+                const totalDuration = totalSegments * segmentDuration;  
+  
+                if (elapsed >= totalDuration) {  
+                    // Tracing finished, draw static finalized vector path  
+                    drawFinalStaticSigil(coords, hasFuturePhantom, phantomCoord, polarityCharge);  
+                    logConsole("Sequential tracing complete. Sigil bound to physical matter.");  
+                    return;  
+                }  
+  
+                const currentSegment = Math.floor(elapsed / segmentDuration);  
+                const segmentProgress = (elapsed % segmentDuration) / segmentDuration;  
+  
+                let dAttr = `M ${coords[0].x} ${coords[0].y}`;  
+                  
+                // Set start anchor  
+                startAnchor.setAttribute('cx', coords[0].x);  
+                startAnchor.setAttribute('cy', coords[0].y);  
+                startAnchor.setAttribute('r', '4');  
+  
+                // Trigger start node chime  
+                if (!triggeredNodes.has(0)) {  
+                    triggeredNodes.add(0);  
+                    playSingleTone(coords[0].digit);  
+                    highlightGuidePin(coords[0].digit);  
+                }  
+  
+                // Draw already traced absolute path segments  
+                for (let i = 0; i < currentSegment; i++) {  
+                    if (i < normalSegments) {  
+                        dAttr += ` L ${coords[i+1].x} ${coords[i+1].y}`;  
+                        if (!triggeredNodes.has(i+1)) {  
+                            triggeredNodes.add(i+1);  
+                            playSingleTone(coords[i+1].digit);  
+                            highlightGuidePin(coords[i+1].digit);  
+                        }  
+                    }  
+                }  
+  
+                // Draw growing line segment currently tracing  
+                if (currentSegment < normalSegments) {  
+                    const startPt = coords[currentSegment];  
+                    const endPt = coords[currentSegment + 1];  
+                    const ix = startPt.x + (endPt.x - startPt.x) * segmentProgress;  
+                    const iy = startPt.y + (endPt.y - startPt.y) * segmentProgress;  
+                    dAttr += ` L ${ix} ${iy}`;  
+                    path.setAttribute('d', dAttr);  
+                } else if (hasFuturePhantom && currentSegment === normalSegments) {  
+                    // Final drawing towards unnumbered phantom coordinate  
+                    for (let i = 0; i < normalSegments; i++) {  
+                        dAttr += ` L ${coords[i+1].x} ${coords[i+1].y}`;  
+                    }  
+                    const startPt = coords[normalSegments];  
+                    const endPt = phantomCoord;  
+                      
+                    // Draw normal static path  
+                    path.setAttribute('d', dAttr);  
+  
+                    // Draw growing phantom path dynamically  
+                    const ix = startPt.x + (endPt.x - startPt.x) * segmentProgress;  
+                    const iy = startPt.y + (endPt.y - startPt.y) * segmentProgress;  
+                    phantomPath.setAttribute('d', `M ${startPt.x} ${startPt.y} L ${ix} ${iy}`);  
+                    phantomPath.setAttribute('opacity', '0.75');  
+  
+                    // Play unnumbered glide tone once  
+                    if (!triggeredNodes.has('phantom')) {  
+                        triggeredNodes.add('phantom');  
+                        playSingleTone(coords[normalSegments].digit, true); // Glide slide  
+                    }  
+  
+                    // Reveal phantom node  
+                    phantomGroup.setAttribute('opacity', '1');  
+                    phantomNode.setAttribute('cx', endPt.x);  
+                    phantomNode.setAttribute('cy', endPt.y);  
+                    const phantomLbl = document.getElementById('futurePhantomLabel');  
+                    if (phantomLbl) {  
+                        phantomLbl.setAttribute('x', endPt.x);  
+                        phantomLbl.setAttribute('y', endPt.y + 1.5);  
+                    }  
+                }  
+  
+                // Mutate aesthetics depending on Void Leakage polarity charges dynamically during drawing  
+                if (polarityCharge === "VOID_LEAKAGE") {  
+                    path.setAttribute('stroke-dasharray', '2.5,2.5');  
+                } else {  
+                    path.removeAttribute('stroke-dasharray');  
+                }  
+  
+                // Descending delay echo loops triggered progressively if Past Echo  
+                if (temporalPhase === "PAST_ECHO") {  
+                    const halfPoint = Math.floor(coords.length / 2);  
+                    if (currentSegment >= halfPoint) {  
+                        const indexToEcho = currentSegment - halfPoint;  
+                        if (!triggeredNodes.has(`echo-${indexToEcho}`)) {  
+                            triggeredNodes.add(`echo-${indexToEcho}`);  
+                            playEchoTone(coords[currentSegment].digit);  
+                        }  
+                    }  
+                }  
+  
+                activeAnimationId = requestAnimationFrame(updateTrace);  
+            }  
+  
+            activeAnimationId = requestAnimationFrame(updateTrace);  
+        }  
+  
+        // Failsafe static drawer for fast rendering or manual loads  
+        function drawFinalStaticSigil(coords, hasFuturePhantom, phantomCoord, polarity) {  
+            const path = document.getElementById('sigilPath');  
+            const startAnchor = document.getElementById('startAnchor');  
+            const endAnchor = document.getElementById('endAnchor');  
+            const phantomPath = document.getElementById('futurePhantomPath');  
+            const phantomGroup = document.getElementById('futurePhantomGroup');  
+            const phantomNode = document.getElementById('futurePhantomNode');  
+  
+            if (!path || !startAnchor || !endAnchor || !phantomPath || !phantomGroup || !phantomNode) return;  
+  
+            let dAttr = `M ${coords[0].x} ${coords[0].y}`;  
+            for (let i = 1; i < coords.length; i++) {  
+                dAttr += ` L ${coords[i].x} ${coords[i].y}`;  
+            }  
+            path.setAttribute('d', dAttr);  
+  
+            startAnchor.setAttribute('cx', coords[0].x);  
+            startAnchor.setAttribute('cy', coords[0].y);  
+            startAnchor.setAttribute('r', '4');  
+  
+            const lastCoord = coords[coords.length - 1];  
+            endAnchor.setAttribute('cx', lastCoord.x);  
+            endAnchor.setAttribute('cy', lastCoord.y);  
+            endAnchor.setAttribute('r', '3.5');  
+  
+            if (hasFuturePhantom && phantomCoord) {  
+                phantomPath.setAttribute('d', `M ${lastCoord.x} ${lastCoord.y} L ${phantomCoord.x} ${phantomCoord.y}`);  
+                phantomPath.setAttribute('opacity', '0.75');  
+                  
+                phantomGroup.setAttribute('opacity', '1');  
+                phantomNode.setAttribute('cx', phantomCoord.x);  
+                phantomNode.setAttribute('cy', phantomCoord.y);  
+                const phantomLbl = document.getElementById('futurePhantomLabel');  
+                if (phantomLbl) {  
+                    phantomLbl.setAttribute('x', phantomCoord.x);  
+                    phantomLbl.setAttribute('y', phantomCoord.y + 1.5);  
+                }  
+            } else {  
+                phantomPath.setAttribute('opacity', '0');  
+                phantomGroup.setAttribute('opacity', '0');  
+            }  
+  
+            if (polarity === "VOID_LEAKAGE") {  
+                path.setAttribute('stroke-dasharray', '2.5,2.5');  
+            } else {  
+                path.removeAttribute('stroke-dasharray');  
+            }  
+  
+            // Adjust guiding pins indicators  
+            const pins = [1,2,3,4,5,6,7,8,9];  
+            pins.forEach(p => {  
+                const circle = document.getElementById(`pin-${p}`);  
+                const text = document.getElementById(`lbl-${p}`);  
+                const coord = activeGridCoords[p];  
+                if (circle && text && coord) {  
+                    circle.setAttribute('cx', coord.x);  
+                    circle.setAttribute('cy', coord.y);  
+                    text.setAttribute('x', coord.x);  
+                    text.setAttribute('y', coord.y - 3);  
+                }  
+            });  
+        }  
+  
+        // Construct background mystical runic strings  
+        function generateAtmosphericRunes(str) {  
+            const overlay = document.getElementById('laoneOverlay');  
+            if (overlay) {  
+                overlay.innerHTML = '';  
+                  
+                // Faux runic assets representing the Aunt's matrix script  
+                const esotericSymbols = ['ᚪ', 'ᚫ', 'ᚬ', 'ᚭ', 'ᚮ', 'ᚯ', 'ᚰ', 'ᚱ', 'ᚲ', 'ᚴ', 'ᚶ', 'ᚸ', 'ᚺ', 'ᚻ', 'ᛃ', 'ᛄ', 'ᛇ', 'ᛈ', 'ᛉ', 'ᛊ', 'ᛋ', 'ᛏ', 'ᛐ', 'ᛑ', 'ᛒ'];  
+                  
+                for (let i = 0; i < 18; i++) {  
+                    const span = document.createElement('span');  
+                    span.className = 'text-[9px] uppercase tracking-wider floating-rune text-center';  
+                    span.innerText = (str[i % str.length] || '*') + esotericSymbols[i % esotericSymbols.length];  
+                    span.style.animationDelay = `${i * 0.25}s`;  
+                    overlay.appendChild(span);  
+                }  
+            }  
+        }  
+  
+        // Save current Sigil parameters to Local Storage and catalog DOM  
+        function saveToLibrary() {  
+            if (!currentSankalpData.vow) {  
+                showAlert("📜 Archive Aborted", "Forge a live vow signature before registering it into the vault.", "⚠️");  
+                return;  
+            }  
+  
+            // Create saved item structure with power attributes  
+            const item = {  
+                id: Date.now(),  
+                vow: currentSankalpData.vow,  
+                vessel: currentSankalpData.vessel,  
+                modifier: "none",  
+                compressedString: currentSankalpData.compressedString,  
+                digits: currentSankalpData.digits,  
+                rawDigits: currentSankalpData.rawDigits || currentSankalpData.digits,  
+                stability: currentSankalpData.stability,  
+                commitment: currentSankalpData.commitment,  
+                power: currentSankalpData.power,  
+                compressionRate: currentSankalpData.compressionRate,  
+                originalLength: currentSankalpData.originalLength,  
+                temporalPhase: currentSankalpData.temporalPhase,  
+                polarityCharge: currentSankalpData.polarityCharge  
+            };  
+  
+            savedLibrary.push(item);  
+              
+            // Sync with browser's Local Storage  
+            try {  
+                localStorage.setItem("sankalpLibrary", JSON.stringify(savedLibrary));  
+            } catch (err) {  
+                logConsole("Failsafe Local Storage limit exceeded. Direct RAM fallback in effect.");  
+            }  
+  
+            updateLibraryDOM();  
+            logConsole("Successfully archived vow sigil into persistent lab storage.");  
+            showAlert("💾 Archive Saved", "Vow signature saved inside browser Local Storage. Safe across system reboots.", "✨");  
+        }  
+  
+        // Render archived sigil catalog items  
+        function updateLibraryDOM() {  
+            const container = document.getElementById('libraryContainer');  
+            const emptyMsg = document.getElementById('emptyLibraryMsg');  
+  
+            if (!container) return;  
+  
+            if (savedLibrary.length === 0) {  
+                if (emptyMsg) emptyMsg.classList.remove('hidden');  
+                container.innerHTML = '';  
+                if (emptyMsg) container.appendChild(emptyMsg);  
+                return;  
+            } else {  
+                if (emptyMsg) emptyMsg.classList.add('hidden');  
+            }  
+  
+            // Display top-down  
+            container.innerHTML = '';  
+            savedLibrary.slice().reverse().forEach(item => {  
+                const div = document.createElement('div');  
+                div.className = "bg-slate-900/60 border border-slate-800/80 rounded p-3 flex flex-col gap-2 relative group hover:border-cyan-400/40 transition-all text-xs";  
+                  
+                // Color badges based on vessel materials  
+                let vesselColor = "text-amber-500 bg-amber-950/25 border-amber-900";  
+                if (item.vessel === 'jade') vesselColor = "text-emerald-400 bg-emerald-950/25 border-emerald-900";  
+                if (item.vessel === 'iron') vesselColor = "text-slate-300 bg-slate-800/25 border-slate-700";  
+                if (item.vessel === 'bone') vesselColor = "text-red-400 bg-red-950/25 border-red-900";  
+                if (item.vessel === 'gold') vesselColor = "text-yellow-400 bg-yellow-950/25 border-yellow-900";  
+  
+                // Temporal tag colors  
+                let tTagColor = "text-emerald-400 bg-emerald-950/30";  
+                if (item.temporalPhase === "FUTURE_PROJECTION") tTagColor = "text-amber-400 bg-amber-950/30";  
+                if (item.temporalPhase === "PAST_ECHO") tTagColor = "text-indigo-400 bg-indigo-950/30";  
+  
+                div.innerHTML = `  
+                    <div class="flex justify-between items-center">  
+                        <span class="font-bold text-[10px] uppercase truncate max-w-[120px] text-cyan-400">${item.compressedString}</span>  
+                        <div class="flex gap-1.5">  
+                            <span class="text-[9px] px-1.5 py-0.5 rounded border ${vesselColor} uppercase font-semibold">${item.vessel}</span>  
+                            <button onclick="loadSavedSigil(${item.id})" class="text-[9px] bg-indigo-950/40 hover:bg-indigo-900 border border-indigo-800 px-1.5 py-0.5 rounded text-indigo-300 font-bold uppercase">Load</button>  
+                            <button onclick="deleteSavedSigil(${item.id})" class="text-[9px] bg-red-950/40 hover:bg-red-900 border border-red-900 px-1.5 py-0.5 rounded text-red-300 font-bold uppercase">Del</button>  
+                        </div>  
+                    </div>  
+                    <p class="text-slate-400 text-[11px] leading-snug line-clamp-2 italic">"${item.vow}"</p>  
+                    <div class="flex justify-between items-center text-[10px] text-slate-500 pt-1 border-t border-slate-800/50">  
+                        <span>Power: <strong class="text-orange-400">${item.power || '10'}</strong></span>  
+                        <span class="text-[9px] px-1 rounded ${tTagColor}">${item.temporalPhase === "PRESENT_ALIGNMENT" ? "Present" : item.temporalPhase === "FUTURE_PROJECTION" ? "Future" : "Past"}</span>  
+                        <span>Node: ${(item.rawDigits || item.digits).join('→')}</span>  
+                    </div>  
+                `;  
+                container.appendChild(div);  
+            });  
+        }  
+  
+        // Load specific saved signature  
+        function loadSavedSigil(id) {  
+            const item = savedLibrary.find(x => x.id === id);  
+            if (!item) return;  
+  
+            const vowInputEl = document.getElementById('vowInput');  
+            if (vowInputEl) vowInputEl.value = item.vow;  
+  
+            const commitmentEl = document.getElementById('commitmentTier');  
+            if (commitmentEl) commitmentEl.value = item.commitment || 'habit';  
+              
+            // Core dynamic analyses  
+            currentSankalpData = { ...item };  
+            selectVessel(item.vessel);  
+            analyzeSankalp();  
+  
+            // Overwrite analyzed variables with saved state variables to preserve actual temporal markers  
+            currentSankalpData.temporalPhase = item.temporalPhase;  
+            currentSankalpData.polarityCharge = item.polarityCharge;  
+  
+            // Trigger grid realignment before rendering  
+            if (item.polarityCharge === "INVERSION_INTERFERENCE") {  
+                activeGridCoords = {};  
+                for (let k in baseGridCoords) {  
+                    activeGridCoords[k] = {  
+                        x: 100 - baseGridCoords[k].x,  
+                        y: 100 - baseGridCoords[k].y  
+                    };  
+                }  
+            } else {  
+                activeGridCoords = { ...baseGridCoords };  
+            }  
+  
+            const metricStrEl = document.getElementById('metricString');  
+            if (metricStrEl) metricStrEl.innerText = item.compressedString.substring(0, 16);  
+  
+            const metricDigitsEl = document.getElementById('metricDigits');  
+            if (metricDigitsEl) metricDigitsEl.innerText = (item.rawDigits || item.digits).join(' → ');  
+  
+            const metricQualityEl = document.getElementById('metricQuality');  
+            if (metricQualityEl) metricQualityEl.innerText = `Original: ${item.originalLength || 0} glyphs | Compressed: ${item.digits.length} nodes | Compression: ${item.compressionRate || 0}%`;  
+  
+            generateAtmosphericRunes(item.compressedString);  
+            evaluateCurrentStability();  
+            animateSigil(item.digits, item.temporalPhase, item.polarityCharge);  
+  
+            logConsole(`Recalled archived sigil matching footprint ID: ${id}`);  
+        }  
+  
+        // Remove saved signature  
+        function deleteSavedSigil(id) {  
+            savedLibrary = savedLibrary.filter(x => x.id !== id);  
+            try {  
+                localStorage.setItem("sankalpLibrary", JSON.stringify(savedLibrary));  
+            } catch (err) {  
+                logConsole("LocalStorage sync failure during record termination.");  
+            }  
+            updateLibraryDOM();  
+            logConsole("Sigil permanently purged from chamber vaults.");  
+        }  
+  
+        // Export active sigil dynamically as vector SVG  
+        function exportSVG() {  
+            const svgEl = document.getElementById('sigilSvg');  
+            if (!svgEl) return;  
+  
+            const serializer = new XMLSerializer();  
+            let source = serializer.serializeToString(svgEl);  
+  
+            // Add standard XML namespacing safely  
+            if (!source.match(/^<svg[^>]+xmlns="http:\/\/www\.w3\.org\/2000\/svg"/)) {  
+                source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');  
+            }  
+            if (!source.match(/^<svg[^>]+xmlns:xlink="http:\/\/www\.w3\.org\/1999\/xlink"/)) {  
+                source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');  
+            }  
+  
+            // Inject standalone background rect to preserve vessel color inside the file  
+            const canvasEl = document.getElementById('vesselCanvas');  
+            const bgFill = canvasEl ? window.getComputedStyle(canvasEl).backgroundColor : '#05060f';  
+            source = source.replace(/^<svg[^>]*>/, (match) => `${match}<rect width="100" height="100" fill="${bgFill}"/>`);  
+  
+            const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);  
+            const downloadLink = document.createElement("a");  
+            downloadLink.href = url;  
+            downloadLink.download = `sankalp-sigil-${Date.now()}.svg`;  
+            document.body.appendChild(downloadLink);  
+            downloadLink.click();  
+            document.body.removeChild(downloadLink);  
+            logConsole("Sigil exported successfully as standalone SVG.");  
+        }  
+  
+        // Export active sigil dynamically as raster PNG  
+        function exportPNG() {  
+            const svgEl = document.getElementById('sigilSvg');  
+            if (!svgEl) return;  
+  
+            const serializer = new XMLSerializer();  
+            let source = serializer.serializeToString(svgEl);  
+  
+            if (!source.match(/^<svg[^>]+xmlns="http:\/\/www\.w3\.org\/2000\/svg"/)) {  
+                source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');  
+            }  
+  
+            // Render matching background inside exported file  
+            const canvasEl = document.getElementById('vesselCanvas');  
+            const bgFill = canvasEl ? window.getComputedStyle(canvasEl).backgroundColor : '#05060f';  
+            source = source.replace(/^<svg[^>]*>/, (match) => `${match}<rect width="100" height="100" fill="${bgFill}"/>`);  
+  
+            const svgBlob = new Blob([source], { type: "image/svg+xml;charset=utf-8" });  
+            const URL = window.URL || window.webkitURL || window;  
+            const blobURL = URL.createObjectURL(svgBlob);  
+  
+            const image = new Image();  
+            image.onload = () => {  
+                const canvas = document.createElement('canvas');  
+                canvas.width = 1000;  // High-def export  
+                canvas.height = 1000;  
+                const context = canvas.getContext('2d');  
+                  
+                // Draw image on high-res surface  
+                context.drawImage(image, 0, 0, 1000, 1000);  
+                  
+                try {  
+                    const pngDataUrl = canvas.toDataURL('image/png');  
+                    const downloadLink = document.createElement("a");  
+                    downloadLink.href = pngDataUrl;  
+                    downloadLink.download = `sankalp-sigil-${Date.now()}.png`;  
+                    document.body.appendChild(downloadLink);  
+                    downloadLink.click();  
+                    document.body.removeChild(downloadLink);  
+                    logConsole("Sigil exported successfully as High-Res PNG.");  
+                } catch (err) {  
+                    logConsole("Error writing raster context. Fall back to direct SVG vector download instead.");  
+                    showAlert("⚠️ Export Limitation", "Direct PNG raster creation is limited under current iframe permissions. Please use 'Export SVG' for high-quality vectors!", "⚠️");  
+                }  
+                URL.revokeObjectURL(blobURL);  
+            };  
+            image.src = blobURL;  
+        }  
+  
+        // Copy raw numerical configurations to clipboard (fallback implementation)  
+        function copySigilCode() {  
+            if (!currentSankalpData.digits || currentSankalpData.digits.length === 0) {  
+                showAlert("🔮 Validation Inversion", "Please write and weave a Sankalp Sigil before copying configurations.", "⚠️");  
+                return;  
+            }  
+  
+            const codeStr = `SANKALP_MATRIX:{Vessel:${currentSankalpData.vessel},Commitment:${currentSankalpData.commitment},Power:${currentSankalpData.power},String:${currentSankalpData.compressedString},Sequence:[${currentSankalpData.digits.join(',')}]}`;  
+              
+            // Native fallback clipboard engine as per safety design constraints  
+            const tempInput = document.createElement("input");  
+            tempInput.value = codeStr;  
+            document.body.appendChild(tempInput);  
+            tempInput.select();  
+            document.execCommand("copy");  
+            document.body.removeChild(tempInput);  
+  
+            logConsole("Copied matrix signature raw configuration string.");  
+            showAlert("🔗 Signal Copied", "Configuration sequence successfully bound to clipboard buffer.", "✨");  
+        }  
+  
+        // Elegant custom modal alerts matching cyber aesthetics  
+        function showAlert(title, message, icon) {  
+            const alertIconEl = document.getElementById('alertIcon');  
+            if (alertIconEl) alertIconEl.innerText = icon || "🔮";  
+  
+            const alertTitleEl = document.getElementById('alertTitle');  
+            if (alertTitleEl) alertTitleEl.innerText = title;  
+  
+            const alertMsgEl = document.getElementById('alertMessage');  
+            if (alertMsgEl) alertMsgEl.innerText = message;  
+              
+            const modal = document.getElementById('customAlertModal');  
+            if (modal) {  
+                modal.classList.remove('hidden');  
+                modal.classList.add('flex');  
+            }  
+        }  
+  
+        // Close dialogue trigger  
+        function closeAlertModal() {  
+            const modal = document.getElementById('customAlertModal');  
+            if (modal) {  
+                modal.classList.add('hidden');  
+                modal.classList.remove('flex');  
+            }  
+        }  
+    </script>  
+</body>  
+</html>
